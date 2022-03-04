@@ -1,7 +1,5 @@
 import hashlib
-from django.http.response import Http404
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
 from .models import Usuario
 
 
@@ -62,4 +60,3 @@ def sair(request):
     request.session.flush()
     return redirect('/auth/login/')
 
-    
