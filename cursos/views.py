@@ -10,7 +10,7 @@ def home(request):
         request_usuario = request.session.get('usuario')
         return render(request, 'home.html', {'cursos': cursos, 'request_usuario': request_usuario})
     else:
-        return redirect('/auth/login/?status=2')
+        return render(request, 'home.html')
 
 def curso(request, id):
     if request.session.get('usuario'):
