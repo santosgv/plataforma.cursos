@@ -1,6 +1,6 @@
 
 from django.shortcuts import render,redirect
-from .models import Usuario
+
 from django.contrib.auth.models import User
 from django.contrib import auth
 
@@ -55,6 +55,9 @@ def valida_login(request):
     else:
         auth.login(request,usuarios)
         return redirect('/home')
+
+def area_aluno(request):
+    return render(request,'area_aluno.html')
 
 def sair(request):
     request.session.flush()

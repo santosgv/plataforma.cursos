@@ -28,10 +28,10 @@ Logar
           <form method="POST" action="{% url 'valida_login'%}">{% csrf_token %}
 
               <label>Digite seu Nome:</label>
-              <input class="form-control" type="text" placeholder="nome" name = "nome">
+              <input class="form-control" type="text" placeholder="nome" name = "nome" required>
               <br>
               <label>Digite seu senha:</label>
-              <input class="form-control" type="password" placeholder="Senha" name = "senha">
+              <input class="form-control" type="password" placeholder="Senha" name = "senha" required>
               <br>
               <input class="btn btn-success btn-lg" type="submit">
               <a href="{% url 'cadastro'%}" class="btn btn-info btn-lg">Cadastre-se</a>
