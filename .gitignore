@@ -1,3 +1,5 @@
 *venv
 *pyc
 .env
+.sqlite3
+templetes/
