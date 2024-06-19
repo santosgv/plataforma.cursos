@@ -61,3 +61,16 @@ class NotasAulas(models.Model):
     class Meta:
         verbose_name = 'Avaliacao'
         verbose_name_plural = 'Avaliaçoes'
+
+class ProgressoAula(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    aula = models.ForeignKey(Aulas, on_delete=models.CASCADE)
+    concluida = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.aula.nome}"
+
+    class Meta:
+        unique_together = ('usuario', 'aula')
+        verbose_name = 'Progresso da Aula'
+        verbose_name_plural = 'Progresso das Aulas'

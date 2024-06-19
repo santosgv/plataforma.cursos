@@ -65,6 +65,7 @@ Aula
   <video  width="100%" controls>
       <source src="{{aula.aula.url}}" type="video/mp4">
     </video>
+    <a href="{% url 'verificar_progresso' aula.id %}">Progresso</a>
   <hr>
 
   <h1>Faça seu comentário: </h1>

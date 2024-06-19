@@ -1,8 +1,19 @@
 
 import json
 from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render,redirect
 from .models import Comentarios, Cursos,Aulas, NotasAulas
+from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
+
+
+@login_required
+def verificar_progresso(request, curso_id):
+    curso = get_object_or_404(Cursos, id=curso_id)
+    progresso = calcular_progresso_curso(request.user, curso_id)
+    certificado_disponivel = pode_emitir_certificado(request.user, curso_id)
+
+    return render(request, 'progresso.html', {'curso': curso, 'progresso': progresso, 'certificado_disponivel': certificado_disponivel})
 
 
 def home(request):
@@ -26,8 +37,8 @@ def aula(request, id):
         usuario_avaliou = NotasAulas.objects.filter(aula_id = id).filter(usuario_id = request.user.id)
         avaliacoes = NotasAulas.objects.filter(aula_id = id)
 
-
-
+        calcular_progresso_curso(request.user, aula.curso.id)
+        #marcar_aula_concluida(request.user, aula.id)
         return render(request, 'aula.html', {'aula': aula,
                                             'usuario_id': request.user.id,
                                             'comentarios': comentarios,
@@ -38,7 +49,6 @@ def aula(request, id):
         return redirect('/auth/login/?status=2')
 
 def comentarios(request):
-    #usuario_id = int(request.user.id)
     comentario = request.POST.get('comentario')
     aula_id = int(request.POST.get('aula_id'))
 

@@ -19,6 +19,14 @@ Area Aluno
         <div class="container text-center">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure recusandae eveniet aperiam cumque nulla! Voluptates omnis consequatur odio cumque necessitatibus mollitia, praesentium voluptas et ad quasi rem. Earum, culpa at!</p>
         </div>
+    
+        {% if progresso %}
+        <span class="text-center">Meu Progresso no Curso</span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        {% endif %}
+
         </div>
     </main>
 </body>

@@ -45,13 +45,13 @@ Cadastre-se
           <hr>
           <form method="POST" action="{% url 'valida_cadastro'%}">{% csrf_token %}
               <label>Digite seu nome:</label>
-              <input class="form-control" type="text" placeholder="Nome..." name = "nome">
+              <input class="form-control" type="text" placeholder="Nome..." name = "nome" required>
               <br>
               <label>Digite seu Email:</label>
-              <input class="form-control" type="text" placeholder="E-mail" name = "email">
+              <input class="form-control" type="text" placeholder="E-mail" name = "email" required>
               <br>
               <label>Digite seu senha:</label>
-              <input class="form-control" type="password" placeholder="Senha" name = "senha">
+              <input class="form-control" type="password" placeholder="Senha" name = "senha" required>
               <br>
               <input class="btn btn-success btn-lg" type="submit">
               <a href="{% url 'login'%}" class="btn btn-info btn-lg">ir para Login</a>
