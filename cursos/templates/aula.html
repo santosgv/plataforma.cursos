@@ -18,7 +18,7 @@ Aula
       </div>
       <div class="modal-body">
 
-        <form action="{% url 'processa_avaliacao' %}" method="POST">
+        <form action="{% url 'Curso:processa_avaliacao' %}" method="POST">
           {% csrf_token %}
 
           <input type="hidden" value="{{aula.id}}" name="aula_id">
@@ -65,7 +65,7 @@ Aula
   <video  width="100%" controls>
       <source src="{{aula.aula.url}}" type="video/mp4">
     </video>
-    <a href="{% url 'verificar_progresso' aula.id %}">Progresso</a>
+    <a href="{% url 'Curso:verificar_progresso' aula.id %}">Progresso</a>
   <hr>
 
   <h1>Faça seu comentário: </h1>
@@ -176,7 +176,7 @@ function envia_comentario(){
    var comentario = document.getElementById('comentario').value;
    document.getElementById('comentario').value = "";
    $.ajax({
-      url: "{% url 'comentarios' %}",
+      url: "{% url 'Curso:comentarios' %}",
       method: 'post',
       data: {
           'csrfmiddlewaretoken': '{{ csrf_token }}',

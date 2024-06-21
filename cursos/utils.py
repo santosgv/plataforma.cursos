@@ -13,12 +13,11 @@ def calcular_progresso_curso(usuario, curso_id):
     total_aulas = Aulas.objects.filter(curso=curso).count()
     aulas_concluidas = ProgressoAula.objects.filter(usuario=usuario, aula__curso=curso, concluida=True).count()
     
-    print(total_aulas)
-    print(int( 1 / total_aulas) * 100)
     if total_aulas == 0:
         return 0
 
-    return (aulas_concluidas / total_aulas) * 100
+    progresso = int((aulas_concluidas / total_aulas) * 100)
+    return progresso
 
 def pode_emitir_certificado(usuario, curso_id):
     progresso = calcular_progresso_curso(usuario, curso_id)

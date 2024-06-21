@@ -1,0 +1,74 @@
+{% extends 'base.html'%}
+
+{% block 'titulo'%}
+Cursos
+
+{% endblock%}
+
+{% block 'body' %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb" style="background-color: #fff;">
+    <li class="breadcrumb-item"><a href="{%url 'Usuario:principal'%}">Pagina Principal</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <br>
+  <h1 class="text-center">Nossos cursos</h1>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if cursos.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{cursos.previous_page_number}}">Voltar</a></li>
+      {% endif %}
+
+      <li class="page-item"><a class="page-link" href="#">{{cursos.number}} de {{cursos.paginator.num_pages}}</a></li>
+      
+      {% if cursos.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{cursos.next_page_number}}">Proximo</a></li>
+      {% endif %}
+    </ul>
+
+  </nav>
+         
+  <div class="row text-center">
+      
+
+    
+      {% for curso in cursos %}
+
+      <div class="card text-center" style="width: 18rem; margin: 5px;">
+        <img class="card-img-top" src="{{curso.thumb.url}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{curso.nome}}</h5>
+          <p class="card-text">{{curso.descricao}}</p>
+          <a href="{% url 'Curso:curso' curso.id %}" class="btn btn-primary">Acessar</a>
+        </div>
+      </div>
+      {% endfor %}
+
+
+  </div>
+
+
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if cursos.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{cursos.previous_page_number}}">Voltar</a></li>
+        {% endif %}
+
+        <li class="page-item"><a class="page-link" href="#">{{cursos.number}} de {{cursos.paginator.num_pages}}</a></li>
+        
+        {% if cursos.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{cursos.next_page_number}}">Proximo</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+              
+
+
+</div>
+{% endblock %}

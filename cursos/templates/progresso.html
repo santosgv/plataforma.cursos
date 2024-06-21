@@ -1,14 +1,39 @@
-<html>
-<head>
-    <title>Progresso do Curso</title>
-</head>
-<body>
+{% extends 'base.html'%}
+
+{% block 'titulo'%}
+Progresso
+
+{% endblock%}
+
+{% block 'body' %}
+<div class="container">
+  <br>   
+  <div class="text-center">
+      
     <h1>{{ curso.nome }}</h1>
-    <p>Progresso: {{ progresso }}%</p>
+    <p>Meu Progresso Progresso: {{ progresso }}%</p>
+
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: {{ progresso }}%;" aria-valuenow="{{ progresso }}" aria-valuemin="0" aria-valuemax="100">{{ progresso }}%</div> 
+      </div>
+      <br>
+      {% if progresso >= 85 %} <img width="48" height="48" src="https://img.icons8.com/color/48/trophy.png" alt="trophy"/>
+      {% endif %}
+
     {% if certificado_disponivel %}
         <p>Você pode baixar seu certificado!</p>
+        <a type="button" class="btn btn-primary" href="">Baixar Certificado</a>
     {% else %}
         <p>Continue assistindo para obter seu certificado.</p>
     {% endif %}
-</body>
-</html>
+
+
+  </div>
+
+
+
+              
+
+<br>
+</div>
+{% endblock %}

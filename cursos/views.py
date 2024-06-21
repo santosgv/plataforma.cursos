@@ -5,49 +5,55 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render,redirect
 from .models import Comentarios, Cursos,Aulas, NotasAulas
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
+from django.core.paginator import Paginator
 
 
 @login_required
 def verificar_progresso(request, curso_id):
-    curso = get_object_or_404(Cursos, id=curso_id)
+    curso = get_object_or_404(Aulas, id=curso_id)
     progresso = calcular_progresso_curso(request.user, curso_id)
     certificado_disponivel = pode_emitir_certificado(request.user, curso_id)
-
     return render(request, 'progresso.html', {'curso': curso, 'progresso': progresso, 'certificado_disponivel': certificado_disponivel})
 
-
+@login_required
 def home(request):
-    if request.user.is_authenticated:
-        cursos = Cursos.objects.all().order_by('nome')
-        return render(request, 'home.html', {'cursos': cursos, 'request_usuario': request.user})
-    else:
-        return render(request, 'home.html')
+    return render(request, 'home.html')
 
+
+@login_required
+def cursos(request):
+    paginas_cursos=Cursos.objects.all().filter(ativo=True).order_by('nome')
+    pagina = Paginator(paginas_cursos, 25)
+    page = request.GET.get('page')
+    cursos = pagina.get_page(page)
+    return render(request, 'cursos.html', {'cursos': cursos,})
+
+@login_required
 def curso(request, id):
-    if request.user.is_authenticated:
-        aulas = Aulas.objects.filter(curso = id)
-        return render(request, 'curso.html', {'aulas': aulas, 'request_usuario': request.user})
-    else:
-        return redirect('/auth/login/?status=2')
+    paginas_aulas = Aulas.objects.filter(curso = id).filter(ativo=True).order_by('nome')
+    pagina = Paginator(paginas_aulas, 25)
+    page = request.GET.get('page')
+    aulas = pagina.get_page(page)
+    return render(request, 'curso.html', {'aulas': aulas,})
 
+@login_required
 def aula(request, id):
-    if request.user.is_authenticated:
-        aula = Aulas.objects.get(id = id)
-        comentarios = Comentarios.objects.filter(aula = aula).order_by('-data')
-        usuario_avaliou = NotasAulas.objects.filter(aula_id = id).filter(usuario_id = request.user.id)
-        avaliacoes = NotasAulas.objects.filter(aula_id = id)
 
-        calcular_progresso_curso(request.user, aula.curso.id)
-        #marcar_aula_concluida(request.user, aula.id)
-        return render(request, 'aula.html', {'aula': aula,
-                                            'usuario_id': request.user.id,
-                                            'comentarios': comentarios,
-                                            'request_usuario': request.user,
-                                            'usuario_avaliou': usuario_avaliou,
-                                            'avaliacoes': avaliacoes})
-    else:
-        return redirect('/auth/login/?status=2')
+    aula = Aulas.objects.get(id = id)
+    comentarios = Comentarios.objects.filter(aula = aula).order_by('-data')
+    usuario_avaliou = NotasAulas.objects.filter(aula_id = id).filter(usuario_id = request.user.id)
+    avaliacoes = NotasAulas.objects.filter(aula_id = id)
 
+    
+    marcar_aula_concluida(request.user, aula.id)
+    return render(request, 'aula.html', {'aula': aula,
+                                        'usuario_id': request.user.id,
+                                        'comentarios': comentarios,
+                                        'request_usuario': request.user,
+                                        'usuario_avaliou': usuario_avaliou,
+                                        'avaliacoes': avaliacoes})
+
+@login_required
 def comentarios(request):
     comentario = request.POST.get('comentario')
     aula_id = int(request.POST.get('aula_id'))
@@ -63,6 +69,7 @@ def comentarios(request):
 
     return HttpResponse(json.dumps({'status': '1', 'comentarios': comentarios }))
 
+@login_required
 def processa_avaliacao(request):
     if request.user.is_authenticated:
 

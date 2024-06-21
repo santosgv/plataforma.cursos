@@ -43,7 +43,7 @@ Cadastre-se
           <br>
           <h1>Cadastre-se</h1>
           <hr>
-          <form method="POST" action="{% url 'valida_cadastro'%}">{% csrf_token %}
+          <form method="POST" action="{% url 'Usuario:valida_cadastro'%}">{% csrf_token %}
               <label>Digite seu nome:</label>
               <input class="form-control" type="text" placeholder="Nome..." name = "nome" required>
               <br>
@@ -54,7 +54,7 @@ Cadastre-se
               <input class="form-control" type="password" placeholder="Senha" name = "senha" required>
               <br>
               <input class="btn btn-success btn-lg" type="submit">
-              <a href="{% url 'login'%}" class="btn btn-info btn-lg">ir para Login</a>
+              <a href="{% url 'Usuario:login'%}" class="btn btn-info btn-lg">ir para Login</a>
           </form>
       </div>
       <div class="col-md-3">

@@ -1,0 +1,77 @@
+{% extends 'base.html'%}
+
+{% block 'titulo'%}
+Aulas do Curso
+
+{% endblock%}
+
+{% block 'body' %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb" style="background-color: #fff;">
+      <li class="breadcrumb-item"><a href="{%url 'Usuario:principal'%}">Pagina Principal</a></li>
+      <li class="breadcrumb-item"><a href="{%url 'Curso:cursos'%}">Cursos</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Aulas</li>
+    </ol>
+  </nav>
+
+<div class="container">
+  <br>
+  <h1 class="text-center">Aulas do Curso</h1>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if aulas.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{aulas.previous_page_number}}">Voltar</a></li>
+      {% endif %}
+
+      <li class="page-item"><a class="page-link" href="#">{{aulas.number}} de {{aulas.paginator.num_pages}}</a></li>
+      
+      {% if aulas.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{aulas.next_page_number}}">Proximo</a></li>
+      {% endif %}
+    </ul>
+    
+  </nav>
+
+  <div class="row text-center">
+      
+
+      {% for aula in aulas %}
+      <div class="card text-center" style="width: 25rem; margin: 5px;">
+        <div class="card-header">
+            {{aula.curso}}
+        </div>
+        
+        <div class="card-body">
+          <h5 class="card-title">{{aula.nome}}</h5>
+          <p class="card-text">{{aula.descricao}}</p>
+          <a href="{% url 'Curso:aula' aula.id %}" class="btn btn-primary">Ver Aula</a>
+        </div>
+        <div class="card-footer text-muted">
+            {{aula.data_upload}}
+        </div>
+      </div>
+   
+      {% endfor %}
+
+  </div>
+
+  <br>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if aulas.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{aulas.previous_page_number}}">Voltar</a></li>
+      {% endif %}
+
+      <li class="page-item"><a class="page-link" href="#">{{aulas.number}} de {{aulas.paginator.num_pages}}</a></li>
+      
+      {% if aulas.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{aulas.next_page_number}}">Proximo</a></li>
+      {% endif %}
+    </ul>
+    
+  </nav>
+
+</div>
+{% endblock %}

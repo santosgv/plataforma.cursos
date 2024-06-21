@@ -1,12 +1,14 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 
 class Cursos(models.Model):
     nome = models.CharField(max_length = 100)
     descricao = models.TextField()
     thumb = models.ImageField(upload_to = "thumb_cursos")
+    ativo= models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.nome
@@ -20,6 +22,9 @@ class Aulas(models.Model):
     descricao = models.TextField()
     aula = models.FileField(upload_to = "aulas")
     curso = models.ForeignKey(Cursos, on_delete = models.DO_NOTHING)
+    data_upload = models.DateField(default=now)
+    ativo= models.BooleanField(default=True)
+    
 
     class Meta:
         verbose_name = 'Aula'
