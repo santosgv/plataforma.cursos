@@ -1,6 +1,11 @@
 
 import json
-from django.http import HttpResponse
+import io
+import os
+from django.conf import settings
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter,landscape
+from django.http import HttpResponse,FileResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render,redirect
 from .models import Comentarios, Cursos,Aulas, NotasAulas
@@ -10,7 +15,7 @@ from django.core.paginator import Paginator
 
 @login_required
 def verificar_progresso(request, curso_id):
-    curso = get_object_or_404(Aulas, id=curso_id)
+    curso = get_object_or_404(Cursos, id=curso_id)
     progresso = calcular_progresso_curso(request.user, curso_id)
     certificado_disponivel = pode_emitir_certificado(request.user, curso_id)
     return render(request, 'progresso.html', {'curso': curso, 'progresso': progresso, 'certificado_disponivel': certificado_disponivel})
@@ -92,3 +97,24 @@ def processa_avaliacao(request):
 
     else:
         return redirect('/auth/login/')
+    
+
+def baixar_certificado(request):
+    try:
+        buffer = io.BytesIO()
+        PDF = canvas.Canvas(buffer, pagesize=landscape(letter))
+        PDF.setFont('Times-Roman', 30)
+
+        image_path = os.path.join(settings.BASE_DIR, 'templates', 'certificado.jpg')
+        PDF.drawImage(image_path, 0, 0, width=landscape(letter)[0], height=landscape(letter)[1])
+
+
+        PDF.drawString(67,275, str(request.user.first_name[:28]))
+
+        PDF.showPage()
+        PDF.save()
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
+    except:
+        pass
+        return

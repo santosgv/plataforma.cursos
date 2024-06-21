@@ -5,35 +5,12 @@ Cadastre-se
 {%endblock%}
 
 {% block 'body' %}
-<div class="container">
-    {% if status == '1' %}
-  <div class="alert alert-danger" role="alert">
-      E-mail já cadastrado no sistema
-    </div>
-  {% endif %}
-
-  {% if status == '2' %}
-  <div class="alert alert-danger" role="alert">
-      Nome e Email não podem ser vazios
-    </div>
-  {% endif %}
-
-  {% if status == '3' %}
-  <div class="alert alert-danger" role="alert">
-      Senha deve conter no mínimo 8 caracteres
-    </div>
-  {% endif %}
-
-  {% if status == '4' %}
-  <div class="alert alert-danger" role="alert">
-      Erro interno do sistema
-    </div>
-  {% endif %}
-
-  {% if status == '0' %}
-  <div class="alert alert-success" role="alert">
-      Cadastro confirmado com sucesso
-    </div>
+  {% if messages %}
+  {% for message in messages %}
+      <div class="alert {{message.tags}}">
+          {{message}}
+      </div>
+  {% endfor %}
   {% endif %}
   <div class="row">
       <div class="col-md-3">
@@ -44,14 +21,23 @@ Cadastre-se
           <h1>Cadastre-se</h1>
           <hr>
           <form method="POST" action="{% url 'Usuario:valida_cadastro'%}">{% csrf_token %}
+              <label>Digite seu Login:</label>
+              <input class="form-control" type="text" placeholder="login" name = "nome" required>
+              <br>
               <label>Digite seu nome:</label>
-              <input class="form-control" type="text" placeholder="Nome..." name = "nome" required>
+              <input class="form-control" type="text" placeholder="nome" name = "first_name" required>
+              <br>
+              <label>Digite seu CPF:</label>
+              <input class="form-control" type="text" data-mask="000.000.000-00" placeholder="CPF" name = "cpf" required>
               <br>
               <label>Digite seu Email:</label>
               <input class="form-control" type="text" placeholder="E-mail" name = "email" required>
               <br>
               <label>Digite seu senha:</label>
               <input class="form-control" type="password" placeholder="Senha" name = "senha" required>
+              <br>
+              <label>Digite novamente a senha:</label>
+              <input class="form-control" type="password" placeholder="Senha" name = "confirm-password" required>
               <br>
               <input class="btn btn-success btn-lg" type="submit">
               <a href="{% url 'Usuario:login'%}" class="btn btn-info btn-lg">ir para Login</a>
@@ -63,4 +49,7 @@ Cadastre-se
   </div>
 
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+	<script src="https://harvesthq.github.io/chosen/chosen.jquery.js" type="text/javascript"></script>
 {% endblock %}

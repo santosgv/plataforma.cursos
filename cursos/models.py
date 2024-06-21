@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from usuarios.models import USUARIO
 from django.utils.timezone import now
 
 
@@ -35,7 +36,7 @@ class Aulas(models.Model):
         return self.nome
 
 class Comentarios(models.Model):
-    usuario = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+    usuario = models.ForeignKey(USUARIO, on_delete = models.DO_NOTHING)
     comentario = models.TextField()
     data = models.DateTimeField(default = datetime.now)
     aula = models.ForeignKey(Aulas, on_delete = models.DO_NOTHING)
@@ -58,7 +59,7 @@ class NotasAulas(models.Model):
 
     aula = models.ForeignKey(Aulas, on_delete=models.DO_NOTHING)
     nota = models.CharField(max_length=50, choices=choices)
-    usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    usuario = models.ForeignKey(USUARIO, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
         return str(self.usuario)
@@ -68,9 +69,10 @@ class NotasAulas(models.Model):
         verbose_name_plural = 'Avaliaçoes'
 
 class ProgressoAula(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(USUARIO, on_delete=models.CASCADE)
     aula = models.ForeignKey(Aulas, on_delete=models.CASCADE)
     concluida = models.BooleanField(default=False)
+    baixou_certificado=models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.usuario.username} - {self.aula.nome}"

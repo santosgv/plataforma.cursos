@@ -1,5 +1,11 @@
 from django.shortcuts import get_object_or_404
 from .models import ProgressoAula, Cursos,Aulas
+from django.http import FileResponse
+import io
+import os
+from django.conf import settings
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 def marcar_aula_concluida(usuario, aula_id):
     aula = get_object_or_404(Aulas, id=aula_id)
@@ -22,3 +28,5 @@ def calcular_progresso_curso(usuario, curso_id):
 def pode_emitir_certificado(usuario, curso_id):
     progresso = calcular_progresso_curso(usuario, curso_id)
     return progresso >= 85
+
+
