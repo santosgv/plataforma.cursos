@@ -18,9 +18,9 @@ Cadastre-se
       </div>
       <div class="col-md">
           <br>
-          <h1>Cadastre-se</h1>
+          <h1 class="text-center">Cadastre-se</h1>
           <hr>
-          <form method="POST" action="{% url 'Usuario:valida_cadastro'%}">{% csrf_token %}
+          <form method="POST" action="{% url 'valida_cadastro'%}">{% csrf_token %}
               <label>Digite seu Login:</label>
               <input class="form-control" type="text" placeholder="login" name = "nome" required>
               <br>
@@ -39,8 +39,8 @@ Cadastre-se
               <label>Digite novamente a senha:</label>
               <input class="form-control" type="password" placeholder="Senha" name = "confirm-password" required>
               <br>
-              <input class="btn btn-success btn-lg" type="submit">
-              <a href="{% url 'Usuario:login'%}" class="btn btn-info btn-lg">ir para Login</a>
+              <button class="btn btn-success btn-lg" type="submit">Cadastrar</button>
+              <a href="{% url 'login'%}" class="btn btn-info btn-lg">ir para Login</a>
           </form>
       </div>
       <div class="col-md-3">

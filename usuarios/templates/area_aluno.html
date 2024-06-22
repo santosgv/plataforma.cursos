@@ -15,17 +15,50 @@ Area Aluno
 <body>
     <main class="container text-center">
         <div class="container text-center">
-        <h1>Area Aluno</h1>
-        <div class="container text-center">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure recusandae eveniet aperiam cumque nulla! Voluptates omnis consequatur odio cumque necessitatibus mollitia, praesentium voluptas et ad quasi rem. Earum, culpa at!</p>
         </div>
     
-        {% if progresso %}
-        <span class="text-center">Meu Progresso no Curso</span>
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+
+        <div id="fundo">
+        
+            <div class="box text-center logar">
+                <form method="POST">{% csrf_token %}
+                    <div class="logar-form">
+                            {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{message.tags}}">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                {% endif %}
+                
+                    <h1 class="titulo font-degrade borda-bottom-degrade">Meu Perfil</h2>
+                    <br>
+                    <br>
+                    <span class="span-descricao"></span>
+                    <input type="text" class="form-control input-cadastro" value="{{first_name}}" name="first_name" placeholder="nome de usuário">
+                    <br>
+                    <span class="span-descricao"></span>
+                    <input type="text" class="form-control input-cadastro" data-mask="000.000.000-00"  value="{{cpf}}" name="cpf" id="cpf" placeholder="CPF">
+                    <br>
+                    <span class="span-descricao"></span>
+                    <input type="text" class="form-control input-cadastro" value="{{email}}" name="email" placeholder="Email">
+                    <br>
+                    <span class="span-descricao"></span>
+                    <br>
+                    <span class="span-descricao"></span>
+                </div>
+                    <br>
+                    <input  type="submit" value="Alterar" class="bto-success bto-group-lg bto-lg">
+                    
+                </form>
+                    
+            </div>
         </div>
-        {% endif %}
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+            <script src="https://harvesthq.github.io/chosen/chosen.jquery.js" type="text/javascript"></script>
 
         </div>
     </main>

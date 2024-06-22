@@ -8,7 +8,7 @@ from reportlab.lib.pagesizes import letter,landscape
 from django.http import HttpResponse,FileResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render,redirect
-from .models import Comentarios, Cursos,Aulas, NotasAulas
+from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
 from django.core.paginator import Paginator
 
@@ -99,7 +99,11 @@ def processa_avaliacao(request):
         return redirect('/auth/login/')
     
 
-def baixar_certificado(request):
+@login_required
+def baixar_certificado(request,curso_id):
+    progresso = ProgressoAula.objects.get(usuario=request.user,aula__curso=curso_id)
+    progresso.baixou_certificado = True
+    progresso.save()
     try:
         buffer = io.BytesIO()
         PDF = canvas.Canvas(buffer, pagesize=landscape(letter))

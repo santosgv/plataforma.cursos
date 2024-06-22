@@ -22,9 +22,9 @@ Logar
       </div>
       <div class="col-md">
           <br>
-          <h1>Login</h1>
+          <h1 class="text-center">Login</h1>
           <hr>
-          <form method="POST" action="{% url 'Usuario:valida_login'%}">{% csrf_token %}
+          <form method="POST" action="{% url 'valida_login'%}">{% csrf_token %}
 
               <label>Digite seu Nome:</label>
               <input class="form-control" type="text" placeholder="nome" name = "nome" required>
@@ -33,7 +33,8 @@ Logar
               <input class="form-control" type="password" placeholder="Senha" name = "senha" required>
               <br>
               <button class="btn btn-success btn-lg" type="submit">Logar</button>
-              <a href="{% url 'Usuario:cadastro'%}" class="btn btn-info btn-lg">Cadastre-se</a>
+              <a href="{% url 'cadastro'%}" class="btn btn-info btn-lg">Cadastre-se</a>
+              <a type="button"  href="{% url 'password_reset'%}">Esqueceu sua senha ?</a>
           </form>
       </div>
       <div class="col-md-3">

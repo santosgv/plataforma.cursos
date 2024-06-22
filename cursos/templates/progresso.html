@@ -13,6 +13,7 @@ Progresso
     <h1>{{ curso.nome }}</h1>
     <p>Meu Progresso Progresso: {{ progresso }}%</p>
 
+
     <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: {{ progresso }}%;" aria-valuenow="{{ progresso }}" aria-valuemin="0" aria-valuemax="100">{{ progresso }}%</div> 
       </div>
@@ -22,7 +23,8 @@ Progresso
 
     {% if certificado_disponivel %}
         <p>Você pode baixar seu certificado!</p>
-        <a type="button" class="btn btn-primary" href="{% url 'Curso:baixar_certificado'%}">Baixar Certificado</a>
+        <a type="button" class="btn btn-primary" href="{% url 'Curso:baixar_certificado' curso.id  %}">Baixar Certificado</a>
+        
     {% else %}
         <p>Continue assistindo para obter seu certificado.</p>
     {% endif %}
