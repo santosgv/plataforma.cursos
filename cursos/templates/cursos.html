@@ -40,7 +40,7 @@ Cursos
       {% for curso in cursos %}
 
       <div class="card text-center" style="width: 18rem; margin: 5px;">
-        <img class="card-img-top" src="{{curso.thumb.url}}" alt="Card image cap" style="height: 200px; width: 100%;">
+        <img class="card-img-top" src="{{curso.thumb.url}}" alt="{{curso.thumb.url}}" style="height: 200px; width: 100%;">
         <div class="card-body">
           <h5 class="card-title">{{curso.nome}}</h5>
           <p class="card-text">{{curso.descricao}}</p>

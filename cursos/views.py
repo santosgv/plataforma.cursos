@@ -9,6 +9,7 @@ from django.http import HttpResponse,FileResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render,redirect
 from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
+from django.db import transaction
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
 from django.core.paginator import Paginator
 
@@ -74,6 +75,7 @@ def comentarios(request):
 
     return HttpResponse(json.dumps({'status': '1', 'comentarios': comentarios }))
 
+@transaction.atomic
 @login_required
 def processa_avaliacao(request):
     if request.user.is_authenticated:
@@ -99,6 +101,7 @@ def processa_avaliacao(request):
         return redirect('/auth/login/')
     
 
+@transaction.atomic
 @login_required
 def baixar_certificado(request,curso_id):
     progresso = ProgressoAula.objects.get(usuario=request.user,aula__curso=curso_id)

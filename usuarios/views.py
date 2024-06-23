@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.messages import constants
-#from django.contrib.auth.models import User
+from django.db import transaction
 from .models import USUARIO
 from django.contrib import auth
 
@@ -22,6 +22,7 @@ def login(request):
     status = request.GET.get('status')
     return render(request, 'login.html', {'status': status})
 
+@transaction.atomic
 def valida_cadastro(request):
     nome = request.POST.get('nome')
     first_name = request.POST.get('first_name')
@@ -71,6 +72,7 @@ def valida_login(request):
         return redirect('/home')
     
 
+@transaction.atomic
 def area_aluno(request):
     if request.method == "GET":
         username = request.user.username

@@ -65,7 +65,7 @@ Aula
   <video  width="100%" controls>
       <source src="{{aula.aula.url}}" type="video/mp4">
     </video>
-    <a href="{% url 'Curso:verificar_progresso' aula.curso.id %}">Progresso</a>
+    <div id="progresso-container"></div>
   <hr>
 
   <h1>Faça seu comentário: </h1>
@@ -210,4 +210,24 @@ function envia_comentario(){
    });
 }
 </script>
+
+<script>
+  // Função para inserir a tag após 10 segundos
+  function mostrarProgresso() {
+      // Obtenha o elemento onde a tag será inserida
+      var container = document.getElementById('progresso-container');
+
+      // Crie a tag que será inserida
+      var link = document.createElement('a');
+      link.href = "{% url 'Curso:verificar_progresso' aula.curso.id %}";
+      link.textContent = "Meu Progresso";
+
+      // Insira a tag no container
+      container.appendChild(link);
+  }
+
+  // Aguarde 10 segundos antes de chamar a função
+  setTimeout(mostrarProgresso, 10000); // 10000 milissegundos = 10 segundos
+</script>
+
 {% endblock %}
