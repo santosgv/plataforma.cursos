@@ -49,12 +49,37 @@ Area Aluno
                     <span class="span-descricao"></span>
                 </div>
                     <br>
-                    <input  type="submit" value="Alterar" class="bto-success bto-group-lg bto-lg">
+                    <input  type="submit" value="Alterar" class="btn btn-success">
                     
                 </form>
                     
             </div>
         </div>
+<br>
+<h1 class="display-4">Cursos Concluidos</h1>
+
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Curso</th>
+                <th scope="col">Progresso</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%  for curso in curso_concluido %}
+              <tr>
+                <th scope="row"><img width="30px" height="30px" src="{{curso.aula.curso.thumb.url}}">'
+                </th>
+                <td>{{curso.aula.curso}}</td>
+                <td><span class="badge badge-success">Concluido</span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          
+         
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>

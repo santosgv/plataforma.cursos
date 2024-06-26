@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'plataforma_cursos.middleware.XFrameOptionsMiddleware'
+   # 'plataforma_cursos.middleware.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'plataforma_cursos.urls'
@@ -169,3 +169,5 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
     'origin',
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'

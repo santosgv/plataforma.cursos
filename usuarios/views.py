@@ -1,7 +1,7 @@
 
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from django.conf import settings
+from cursos.models import ProgressoAula
 from django.contrib.messages import constants
 from django.db import transaction
 from .models import USUARIO
@@ -79,12 +79,13 @@ def area_aluno(request):
         first_name = request.user.first_name
         cpf = request.user.cpf
         email = request.user.email
-
+        curso_concluido = ProgressoAula.objects.filter(usuario=request.user,baixou_certificado=True)
         return render(request,'area_aluno.html',{
                                                 'username':username,
                                                 'first_name':first_name,
                                                 'cpf': cpf,
-                                                'email':email
+                                                'email':email,
+                                                'curso_concluido':curso_concluido
                                                     })
     else:
         
