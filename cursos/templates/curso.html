@@ -45,7 +45,7 @@ Aulas do Curso
         
         <div class="card-body">
           <h5 class="card-title">{{aula.nome}}</h5>
-          <p class="card-text">{{aula.descricao}}</p>
+          <p class="card-text">{{aula.descricao|slice:":20"}} ...</p>
           <a href="{% url 'Curso:aula' aula.id %}" class="btn btn-primary">Ver Aula</a>
         </div>
         <div class="card-footer text-muted">

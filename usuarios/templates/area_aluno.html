@@ -57,7 +57,7 @@ Area Aluno
         </div>
 <br>
 <h1 class="display-4">Cursos Concluidos</h1>
-
+ {% if curso_concluido %}
         <table class="table">
             <thead class="thead-dark">
               <tr>
@@ -78,6 +78,10 @@ Area Aluno
               {% endfor %}
             </tbody>
           </table>
+          {% endif %}
+          <br>
+          <samp>Você Ainda nao concluiu nem um Curso</samp>
+          <br>
           
          
         

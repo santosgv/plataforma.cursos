@@ -43,7 +43,7 @@ Cursos
         <img class="card-img-top" src="{{curso.thumb.url}}" alt="{{curso.thumb.url}}" style="height: 200px; width: 100%;">
         <div class="card-body">
           <h5 class="card-title">{{curso.nome}}</h5>
-          <p class="card-text">{{curso.descricao}}</p>
+          <p class="card-text">{{curso.descricao|slice:":50"}} ...</p>
           <a href="{% url 'Curso:curso' curso.id %}" class="btn btn-primary">Acessar</a>
         </div>
       </div>
