@@ -141,3 +141,27 @@ EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS=True
 EMAIL_PORT =587
 EMAIL_HOST='smtp.office365.com'
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+CORS_ALLOWED_ORIGINS = [
+    'https://mundocoloridokids.com.br',
+]
+CORS_ORIGIN_WHITELIST = (
+    'https://mundocoloridokids.com.br',
+)
+CORS_ALLOW_METHODS = [
+   "GET",
+    'OPTIONS',
+]

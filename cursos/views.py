@@ -105,23 +105,35 @@ def processa_avaliacao(request):
 @login_required
 def baixar_certificado(request,curso_id):
     progresso = ProgressoAula.objects.get(usuario=request.user,aula__curso=curso_id)
+    curso = Cursos.objects.get(id=curso_id)
     progresso.baixou_certificado = True
     progresso.save()
     try:
         buffer = io.BytesIO()
         PDF = canvas.Canvas(buffer, pagesize=landscape(letter))
         PDF.setFont('Times-Roman', 30)
-
-        image_path = os.path.join(settings.BASE_DIR, 'templates', 'certificado.jpg')
+        image_path = os.path.join(settings.BASE_DIR, 'templates', 'certificado.jpeg')
         PDF.drawImage(image_path, 0, 0, width=landscape(letter)[0], height=landscape(letter)[1])
+        PDF.drawString(230,390,str(request.user.first_name))
+        PDF.setFont('Times-Roman', 20)
+        PDF.drawString(395,359,str(request.user.cpf))
+        PDF.setFont('Times-Roman', 15)
 
+        if curso.cargoraria and curso.validade == 1:
+            PDF.drawString(305,328,str(curso.nome + f',com Cargo Horária {curso.cargoraria} Hora Validade:{curso.validade} Ano'))
+        else:
+            PDF.drawString(305,328,str(curso.nome + f',com Cargo Horária {curso.cargoraria} Horas Validade:{curso.validade} Anos'))
 
-        PDF.drawString(67,275, str(request.user.first_name[:28]))
+        PDF.drawString(67,275, str(curso.descricao[:110]))
+        PDF.drawString(67,250, str(curso.descricao[111:221]))
+        PDF.drawString(67,225, str(curso.descricao[222:331]))
+        PDF.drawString(67,200, str(curso.descricao[332:459]))
+        PDF.drawString(67,175, str(curso.descricao[460:570]))
 
         PDF.showPage()
         PDF.save()
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
-    except:
-        pass
+    except Exception as msg:
+        print(msg)
         return

@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.db import models
-#from django.contrib.auth.models import User
+import os
 from usuarios.models import USUARIO
 from django.utils.timezone import now
 
@@ -9,6 +9,8 @@ class Cursos(models.Model):
     nome = models.CharField(max_length = 100)
     descricao = models.TextField()
     thumb = models.ImageField(upload_to = "thumb_cursos")
+    cargoraria = models.IntegerField()
+    validade = models.IntegerField()
     ativo= models.BooleanField(default=True)
 
     def __str__(self) -> str:
@@ -34,6 +36,18 @@ class Aulas(models.Model):
 
     def __str__(self) -> str:
         return self.nome
+    @property
+    def is_video(self):
+        video_extensions = ['.mp4', '.avi', '.mov', '.mkv','.webm']
+        ext = os.path.splitext(self.aula.name)[1].lower()
+        return ext in video_extensions
+
+    @property
+    def is_pdf(self):
+        pdf_extensions = ['.pdf']
+        ext = os.path.splitext(self.aula.name)[1].lower()
+        return ext in pdf_extensions
+
 
 class Comentarios(models.Model):
     usuario = models.ForeignKey(USUARIO, on_delete = models.DO_NOTHING)
