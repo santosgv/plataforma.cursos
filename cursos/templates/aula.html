@@ -73,13 +73,18 @@ Aula
     </video>
     {% elif aula.is_pdf %}
    
-    <div style="height:100%; width: 100%;">
-      <embed src="http://127.0.0.1:8000/{{aula.aula}}" type="application/pdf" width="100%" height="100%">
-    </div>
-
+    <div style="height: 600px; width: 100%;">
+      <object data="{{ aula.aula.url }}" type="application/pdf" width="100%" height="100%">
+          <iframe src="{{ aula.aula.url }}" width="100%" height="100%" style="border: none;">
+              Este navegador não suporta PDFs. Por favor, baixe o PDF para visualizá-lo: 
+              <a href="{{ aula.aula.url }}">Download PDF</a>.
+          </iframe>
+      </object>
+  </div>
       {% else %}
       <p>Tipo de arquivo desconhecido</p>
       {% endif %}
+      <br>
       <div id="progresso-container"></div>
   <hr>
 

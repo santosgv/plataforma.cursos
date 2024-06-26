@@ -16,3 +16,4 @@ urlpatterns = [
     path('comentarios/', views.comentarios, name = 'comentarios'),
     path('processa_avaliacao/', views.processa_avaliacao, name = 'processa_avaliacao')
 ]
+
