@@ -52,7 +52,7 @@ def valida_cadastro(request):
         usuario = USUARIO.objects.create_user(username = nome ,first_name=first_name,cpf=cpf, email = email, password = senha,)
         usuario.save()
         messages.add_message(request, constants.SUCCESS, 'Cadastro realizado com sucesso!!!')
-        return redirect('/login/')
+        return redirect('/login')
     except:
         messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o usuario entre em contato com o ADM')
         return redirect('cadastro/')
@@ -69,7 +69,7 @@ def valida_login(request):
         return redirect('/login')
     else:
         auth.login(request,usuarios)
-        return redirect('/home')
+        return redirect('/')
     
 
 @transaction.atomic

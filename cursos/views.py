@@ -37,10 +37,12 @@ def cursos(request):
 @login_required
 def curso(request, id):
     paginas_aulas = Aulas.objects.filter(curso = id).filter(ativo=True).order_by('nome')
+    avaliacoes = NotasAulas.objects.filter(aula_id = id)
     pagina = Paginator(paginas_aulas, 25)
     page = request.GET.get('page')
     aulas = pagina.get_page(page)
-    return render(request, 'curso.html', {'aulas': aulas,})
+    return render(request, 'curso.html', {'aulas': aulas,
+                                        'avaliacoes': avaliacoes})
 
 @login_required
 def aula(request, id):

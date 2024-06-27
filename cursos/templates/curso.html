@@ -1,77 +1,102 @@
-{% extends 'base.html'%}
+{% extends 'base-novo.html'%}
 
 {% block 'titulo'%}
-Aulas do Curso
+Cursos
 
 {% endblock%}
 
-{% block 'body' %}
+{% block 'body' %}         
+  <main>
+    <!--? slider Area Start-->
+    <section class="slider-area slider-area2">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-11 col-md-12">
+                            <div class="hero__caption hero__caption2">
+                                <h1 data-animation="bounceIn" data-delay="0.2s">Aulas do Curso</h1>
+                                <!-- breadcrumb Start-->
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="{%url 'principal'%}">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="{%url 'Curso:cursos'%}">Cursos</a></li> 
+                                    </ol>
+                                </nav>
+                                <!-- breadcrumb End -->
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </section>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb" style="background-color: #fff;">
-      <li class="breadcrumb-item"><a href="{%url 'principal'%}">Pagina Principal</a></li>
-      <li class="breadcrumb-item"><a href="{%url 'Curso:cursos'%}">Cursos</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Aulas</li>
-    </ol>
-  </nav>
+</main>
 
-<div class="container">
-  <br>
-  <h1 class="text-center">Aulas do Curso</h1>
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      {% if aulas.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{aulas.previous_page_number}}">Voltar</a></li>
-      {% endif %}
-
-      <li class="page-item"><a class="page-link" href="#">{{aulas.number}} de {{aulas.paginator.num_pages}}</a></li>
-      
-      {% if aulas.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{aulas.next_page_number}}">Proximo</a></li>
-      {% endif %}
-    </ul>
     
-  </nav>
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-8">
+        <div class="section-tittle text-center mb-55">
+            <h2>Nossas Aulas</h2>
+        </div>
+    </div>
+</div>
 
-  <div class="row text-center">
-      
-
-      {% for aula in aulas %}
-      <div class="card text-center" style="width: 20rem; margin: 5px;">
-        <div class="card-header">
-            {{aula.curso}}
-        </div>
-        
-        <div class="card-body">
-          <h5 class="card-title">{{aula.nome}}</h5>
-          <p class="card-text">{{aula.descricao|slice:":20"}} ...</p>
-          <a href="{% url 'Curso:aula' aula.id %}" class="btn btn-primary">Ver Aula</a>
-        </div>
-        <div class="card-footer text-muted">
-            {{aula.data_upload}}
-        </div>
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-8">
+      <div class="section-tittle text-center mt-40">
+        {% if aulas.has_previous %}
+          <a href="?page={{aulas.previous_page_number}}" class="border-btn">Voltar</a>
+          {% endif %}
+          <a href="#" class="border-btn">{{aulas.number}} de {{aulas.paginator.num_pages}}</a>
+          {% if cursos.has_next %}
+          <a href="?page={{aulas.next_page_number}}" class="border-btn">Proximo</a>
+          {% endif %}
       </div>
-   
-      {% endfor %}
-
   </div>
+</div>
+<div class="courses-area section-padding40 fix">
+  <div class="container">
+      <div class="row">
+{% for aula in aulas %}
+<div class="col-lg-4">
+  <div class="properties properties2 mb-30">
+      <div class="properties__card">
+          <div class="properties__caption text-center">
+              <h3><a href="#">{{aula.nome}}</a></h3>
+              <p>{{aula.descricao|slice:":20"}}</p>
+              <div class="properties__footer d-flex justify-content-between align-items-center">
+              </div>
+              <a href="{% url 'Curso:aula' aula.id %}" class="border-btn border-btn2">Ver Aula</a>
+          </div>
+      </div>
+  </div>
+</div>
+    {% endfor %}
+  </div>
+</div>
+</div>
 
-  <br>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      {% if aulas.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{aulas.previous_page_number}}">Voltar</a></li>
-      {% endif %}
+      <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-8">
+            <div class="section-tittle text-center mt-40">
+              {% if aulas.has_previous %}
+                <a href="?page={{aulas.previous_page_number}}" class="border-btn">Voltar</a>
+                {% endif %}
+                <a href="#" class="border-btn">{{aulas.number}} de {{aulas.paginator.num_pages}}</a>
+                {% if cursos.has_next %}
+                <a href="?page={{aulas.next_page_number}}" class="border-btn">Proximo</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-      <li class="page-item"><a class="page-link" href="#">{{aulas.number}} de {{aulas.paginator.num_pages}}</a></li>
-      
-      {% if aulas.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{aulas.next_page_number}}">Proximo</a></li>
-      {% endif %}
-    </ul>
-    
-  </nav>
+
+              
+
 
 </div>
 {% endblock %}

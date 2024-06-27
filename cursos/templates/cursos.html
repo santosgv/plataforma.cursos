@@ -16,12 +16,11 @@ Cursos
                     <div class="row">
                         <div class="col-xl-8 col-lg-11 col-md-12">
                             <div class="hero__caption hero__caption2">
-                                <h1 data-animation="bounceIn" data-delay="0.2s">Our courses</h1>
+                                <h1 data-animation="bounceIn" data-delay="0.2s">Nossos Cursos</h1>
                                 <!-- breadcrumb Start-->
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                        <li class="breadcrumb-item"><a href="{%url 'principal'%}">Home</a></li>
                                     </ol>
                                 </nav>
                                 <!-- breadcrumb End -->
@@ -40,7 +39,7 @@ Cursos
 <div class="row justify-content-center">
     <div class="col-xl-7 col-lg-8">
         <div class="section-tittle text-center mb-55">
-            <h2>Our featured courses</h2>
+            <h2>Nossos Cursos</h2>
         </div>
     </div>
 </div>
@@ -58,11 +57,11 @@ Cursos
       </div>
   </div>
 </div>
+<div class="courses-area section-padding40 fix">
+  <div class="container">
+      <div class="row">
       {% for curso in cursos %}
-    <!-- Courses area start -->
-    <div class="courses-area section-padding40 fix">
-      <div class="container">
-          <div class="row">
+
               <div class="col-lg-4">
                   <div class="properties properties2 mb-30">
                       <div class="properties__card">
@@ -72,33 +71,18 @@ Cursos
                           <div class="properties__caption">
                               <p>User Experience</p>
                               <h3><a href="#">{{curso.nome}}</a></h3>
-                              <p>{{curso.descricao|slice:":50"}}</p>
-                              <div class="properties__footer d-flex justify-content-between align-items-center">
-                                  <div class="restaurant-name">
-                                      <div class="rating">
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star"></i>
-                                          <i class="fas fa-star-half"></i>
-                                      </div>
-                                      <p><span>(4.5)</span> based on 120</p>
-                                  </div>
-                                  <div class="price">
-                                      <span>$135</span>
-                                  </div>
-                              </div>
-                              <a href="{% url 'Curso:curso' curso.id %}" class="border-btn border-btn2">Find out more</a>
+                              <p>{{curso.descricao|slice:":60"}}</p>
+                              <a href="{% url 'Curso:curso' curso.id %}" class="border-btn border-btn2">Acessar Aulas</a>
                           </div>
                       </div>
                   </div>
               </div>
 
-          </div>
-      </div>
-  </div>
-  <!-- Courses area End -->
-      {% endfor %}
+              
+              {% endfor %}
+            </div>
+        </div>
+    </div>
 
       <div class="row justify-content-center">
         <div class="col-xl-7 col-lg-8">
