@@ -1,72 +1,120 @@
-{% extends 'base.html'%}
+{% extends 'base-novo.html'%}
 
 {% block 'titulo'%}
 Cursos
 
 {% endblock%}
 
-{% block 'body' %}
+{% block 'body' %}         
+  <main>
+    <!--? slider Area Start-->
+    <section class="slider-area slider-area2">
+        <div class="slider-active">
+            <!-- Single Slider -->
+            <div class="single-slider slider-height2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-11 col-md-12">
+                            <div class="hero__caption hero__caption2">
+                                <h1 data-animation="bounceIn" data-delay="0.2s">Our courses</h1>
+                                <!-- breadcrumb Start-->
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="#">Services</a></li> 
+                                    </ol>
+                                </nav>
+                                <!-- breadcrumb End -->
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </section>
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb" style="background-color: #fff;">
-    <li class="breadcrumb-item"><a href="{%url 'principal'%}">Pagina Principal</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Cursos</li>
-  </ol>
-</nav>
+</main>
 
-<div class="container">
-  <br>
-  <h1 class="text-center">Nossos cursos</h1>
-
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      {% if cursos.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page={{cursos.previous_page_number}}">Voltar</a></li>
-      {% endif %}
-
-      <li class="page-item"><a class="page-link" href="#">{{cursos.number}} de {{cursos.paginator.num_pages}}</a></li>
-      
-      {% if cursos.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{cursos.next_page_number}}">Proximo</a></li>
-      {% endif %}
-    </ul>
-
-  </nav>
-         
-  <div class="row text-center">
-      
 
     
-      {% for curso in cursos %}
-
-      <div class="card text-center" style="width: 18rem; margin: 5px;">
-        <img class="card-img-top" src="{{curso.thumb.url}}" alt="{{curso.thumb.url}}" style="height: 200px; width: 100%;">
-        <div class="card-body">
-          <h5 class="card-title">{{curso.nome}}</h5>
-          <p class="card-text">{{curso.descricao|slice:":50"}} ...</p>
-          <a href="{% url 'Curso:curso' curso.id %}" class="btn btn-primary">Acessar</a>
+<div class="row justify-content-center">
+    <div class="col-xl-7 col-lg-8">
+        <div class="section-tittle text-center mb-55">
+            <h2>Our featured courses</h2>
         </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-xl-7 col-lg-8">
+      <div class="section-tittle text-center mt-40">
+        {% if cursos.has_previous %}
+          <a href="?page={{cursos.previous_page_number}}" class="border-btn">Voltar</a>
+          {% endif %}
+          <a href="#" class="border-btn">{{cursos.number}} de {{cursos.paginator.num_pages}}</a>
+          {% if cursos.has_next %}
+          <a href="?page={{cursos.next_page_number}}" class="border-btn">Proximo</a>
+          {% endif %}
       </div>
+  </div>
+</div>
+      {% for curso in cursos %}
+    <!-- Courses area start -->
+    <div class="courses-area section-padding40 fix">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-4">
+                  <div class="properties properties2 mb-30">
+                      <div class="properties__card">
+                          <div class="properties__img overlay1">
+                              <a href="#"><img src="{{curso.thumb.url}}" width="100px" height="300px" alt="{{curso.thumb.url}}"></a>
+                          </div>
+                          <div class="properties__caption">
+                              <p>User Experience</p>
+                              <h3><a href="#">{{curso.nome}}</a></h3>
+                              <p>{{curso.descricao|slice:":50"}}</p>
+                              <div class="properties__footer d-flex justify-content-between align-items-center">
+                                  <div class="restaurant-name">
+                                      <div class="rating">
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star"></i>
+                                          <i class="fas fa-star-half"></i>
+                                      </div>
+                                      <p><span>(4.5)</span> based on 120</p>
+                                  </div>
+                                  <div class="price">
+                                      <span>$135</span>
+                                  </div>
+                              </div>
+                              <a href="{% url 'Curso:curso' curso.id %}" class="border-btn border-btn2">Find out more</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <!-- Courses area End -->
       {% endfor %}
 
+      <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-8">
+            <div class="section-tittle text-center mt-40">
+              {% if cursos.has_previous %}
+                <a href="?page={{cursos.previous_page_number}}" class="border-btn">Voltar</a>
+                {% endif %}
+                <a href="#" class="border-btn">{{cursos.number}} de {{cursos.paginator.num_pages}}</a>
+                {% if cursos.has_next %}
+                <a href="?page={{cursos.next_page_number}}" class="border-btn">Proximo</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-  </div>
 
-
-
-    <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
-        {% if cursos.has_previous %}
-        <li class="page-item"><a class="page-link" href="?page={{cursos.previous_page_number}}">Voltar</a></li>
-        {% endif %}
-
-        <li class="page-item"><a class="page-link" href="#">{{cursos.number}} de {{cursos.paginator.num_pages}}</a></li>
-        
-        {% if cursos.has_next %}
-        <li class="page-item"><a class="page-link" href="?page={{cursos.next_page_number}}">Proximo</a></li>
-        {% endif %}
-      </ul>
-    </nav>
               
 
 
