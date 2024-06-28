@@ -236,6 +236,7 @@ function envia_comentario(){
       // Crie a tag que será inserida
       var link = document.createElement('a');
       link.href = "{% url 'Curso:verificar_progresso' aula.curso.id %}";
+      link.className="btn btn-primary";
       link.textContent = "Meu Progresso";
 
       // Insira a tag no container
