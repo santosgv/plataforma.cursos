@@ -10,8 +10,8 @@
     </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
 
     {% block 'head' %}
     {% endblock %}
@@ -70,7 +70,7 @@
                                                 <li><a href="contact.html">Contact</a></li>
                                                 {% if user.is_authenticated %}
                                                 <li><a href="{% url 'Curso:cursos' %}">Cursos</a></li>
-                                                <li><a href="#">{{user.username}}</a>
+                                                <li><a href="#" class="btn">{{user.username}}</a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'area_aluno'%}">Perfil</a></li>
                                                         <li><a href="{%url 'sair'%}">Sair</a></li>

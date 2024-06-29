@@ -18,7 +18,7 @@ def cadastro(request):
 
 def login(request):
     if request.session.get('usuario'):
-        return redirect('/home/')
+        return redirect('/home')
     status = request.GET.get('status')
     return render(request, 'login.html', {'status': status})
 
@@ -33,19 +33,19 @@ def valida_cadastro(request):
     
     if not senha == confirmar_senha:
         messages.add_message(request, constants.ERROR, 'As senhas não coincidem')
-        return redirect('cadastro/')
+        return redirect('/cadastro')
 
     if USUARIO.objects.filter(email= email).exists():
         messages.add_message(request, constants.ERROR, 'Já existe um usário com esse username')
-        return redirect('cadastro/')
+        return redirect('/cadastro')
     
     if len(nome.strip()) == 0 or len(email.strip()) == 0:
         messages.add_message(request, constants.ERROR, 'Os campos nao podem ser vazio')
-        return redirect('cadastro/')
+        return redirect('/cadastro')
     
     if len(senha) < 8:
         messages.add_message(request, constants.ERROR, 'A senha deve ser maior que 8 caracteres')
-        return redirect('cadastro/')
+        return redirect('/cadastro')
     
     try:
         
@@ -97,13 +97,13 @@ def area_aluno(request):
 
         if len(first_name.strip()) == 0  or len(cpf.strip()) == 0 or len(email.strip()) == 0:
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
-            return redirect('/area_aluno.html')
+            return redirect('/area_aluno')
         
         user = USUARIO.objects.filter(username=request.user).exclude(id=request.user.id)
         
         if user.exists():
             messages.add_message(request, constants.ERROR, 'Já existe um usário com esse username')
-            return redirect('/area_aluno.html')
+            return redirect('area_aluno/')
 
         usuario = request.user
         usuario.first_name = first_name

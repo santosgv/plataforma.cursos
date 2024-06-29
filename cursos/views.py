@@ -106,7 +106,7 @@ def processa_avaliacao(request):
 @transaction.atomic
 @login_required
 def baixar_certificado(request,curso_id):
-    progresso = ProgressoAula.objects.get(usuario=request.user,aula__curso=curso_id)
+    progresso = ProgressoAula.objects.filter(usuario=request.user,aula__curso=curso_id).first()
     curso = Cursos.objects.get(id=curso_id)
     progresso.baixou_certificado = True
     progresso.save()

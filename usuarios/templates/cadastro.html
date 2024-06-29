@@ -23,14 +23,6 @@
 {% block 'body' %}
 
           <main class="login-body">
-         
-            {% if messages %}
-            {% for message in messages %}
-                <div class="alert {{message.tags}}">
-                    {{message}}
-                </div>
-            {% endfor %}
-            {% endif %}
 
             <form class="form-default" method="POST" action="{% url 'valida_cadastro'%}">{% csrf_token %}>
                 
@@ -70,6 +62,14 @@
                     <div class="text-center">
                     <a href="{% url 'login'%}" class="registration">login</a>
                 </div>
+
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{message.tags}} text-center">
+                        {{message}}
+                    </div>
+                {% endfor %}
+                {% endif %}
                 </div>
             </form>
 

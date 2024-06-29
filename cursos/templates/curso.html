@@ -65,11 +65,16 @@ Cursos
 <div class="col-lg-4">
   <div class="properties properties2 mb-30">
       <div class="properties__card">
+        <div class="card-footer text-muted text-center">
+            {{aula.data_upload}}
+          </div>
           <div class="properties__caption text-center">
+          
               <h3><a href="#">{{aula.nome}}</a></h3>
               <p>{{aula.descricao|slice:":20"}}</p>
               <div class="properties__footer d-flex justify-content-between align-items-center">
               </div>
+       
               <a href="{% url 'Curso:aula' aula.id %}" class="border-btn border-btn2">Ver Aula</a>
           </div>
       </div>

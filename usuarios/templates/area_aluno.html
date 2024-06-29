@@ -5,43 +5,27 @@ Area Aluno
 
 {% endblock%}
 {% block 'body' %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <main class="container text-center">
-        <div class="container text-center">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure recusandae eveniet aperiam cumque nulla! Voluptates omnis consequatur odio cumque necessitatibus mollitia, praesentium voluptas et ad quasi rem. Earum, culpa at!</p>
-        </div>
-    
 
-        <div id="fundo">
+
+    <main class="container text-center">
+    
         
             <div class="box text-center logar">
                 <form method="POST">{% csrf_token %}
                     <div class="logar-form">
-                            {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert {{message.tags}}">
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                {% endif %}
-                
                     <h1 class="titulo font-degrade borda-bottom-degrade">Meu Perfil</h2>
                     <br>
                     <br>
                     <span class="span-descricao"></span>
+                    <label for="name">Nome</label>
                     <input type="text" class="form-control input-cadastro" value="{{first_name}}" name="first_name" placeholder="nome de usuário">
                     <br>
                     <span class="span-descricao"></span>
+                    <label for="name">CPF</label>
                     <input type="text" class="form-control input-cadastro" data-mask="000.000.000-00"  value="{{cpf}}" name="cpf" id="cpf" placeholder="CPF">
                     <br>
                     <span class="span-descricao"></span>
+                    <label for="name">Email</label>
                     <input type="text" class="form-control input-cadastro" value="{{email}}" name="email" placeholder="Email">
                     <br>
                     <span class="span-descricao"></span>
@@ -54,8 +38,15 @@ Area Aluno
                 </form>
                     
             </div>
-        </div>
-<br>
+ <br>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+        {% endif %}
+<hr>
 <h1 class="display-4">Cursos Concluidos</h1>
  {% if curso_concluido %}
         <table class="table">
@@ -72,7 +63,7 @@ Area Aluno
                 <th scope="row"><img width="30px" height="30px" src="{{curso.aula.curso.thumb.url}}">'
                 </th>
                 <td>{{curso.aula.curso}}</td>
-                <td><span class="badge badge-success">Concluido</span>
+                <td> <a type="button" style="color: blue;" href="{% url 'Curso:baixar_certificado'  curso.aula.id  %}">Baixar Certificado</a>
                 </td>
               </tr>
               {% endfor %}
@@ -91,6 +82,17 @@ Area Aluno
 
         </div>
     </main>
-</body>
-</html>
+
+    <style>
+        .logar-form {
+    padding-top: 150px;
+}
+
+
+form {
+    position: relative;
+    z-index: 1;
+}
+    </style>
+
 {%endblock%}

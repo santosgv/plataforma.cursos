@@ -8,44 +8,40 @@ Aula
 {% endblock %}
 {% block 'body' %}
 <br>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Avalie</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div style="padding-top: 60px;">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Avalie</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'Curso:processa_avaliacao' %}" method="POST" class="form-inline">
+            {% csrf_token %}
+            <input type="hidden" value="{{ aula.id }}" name="aula_id">
+
+            <div class="form-group mb-2">
+              <select name="avaliacao" class="form-control">
+                <option value="p">Péssimo</option>
+                <option value="r">Ruim</option>
+                <option value="re" selected>Regular</option>
+                <option value="b">Bom</option>
+                <option value="o">Ótimo</option>
+              </select>
+            </div>
+
+            <div class="form-group mx-sm-3 mb-2">
+              <input type="submit" class="btn btn-success" value="Avaliar">
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="modal-body">
-
-        <form action="{% url 'Curso:processa_avaliacao' %}" method="POST">
-          {% csrf_token %}
-
-          <input type="hidden" value="{{aula.id}}" name="aula_id">
-
-          <select name="avaliacao" class="form-control">
-            <option value="p">Péssimo</option>
-            <option value="r">Ruim</option>
-            <option value="re" selected>Regular</option>
-            <option value="b">Bom</option>
-            <option value="o">Ótimo</option>
-
-
-          </select>
-
-          <br>
-          
-          <input type="submit" class="btn btn-success" value="Avaliar">
-
-
-        </form>
-      </div>
-    
     </div>
   </div>
 </div>
-
 
 <div class="container">
   <br>
@@ -89,16 +85,39 @@ Aula
   <br>
   <input onclick="envia_comentario()" type="button" value="Enviar" class="btn btn-success btn-lg">
   <hr>
-  <div id="comentarios">
+  <div class="comments-area">
     {% for i in comentarios%}
-    <img width="35" height="35" src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="user-male-circle"/>
-      <h5 style="display: inline;">{{i.usuario}}</h5>
-      <p style="margin-left: 50px;">{{i.comentario}}</p>
-      <hr>
+
+
+      <div id="comentarios" class="comment-list">
+        <div class="single-comment justify-content-between d-flex">
+           <div class="user justify-content-between d-flex">
+              <div class="thumb">
+                 <img src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="">
+              </div>
+              <div class="desc">
+                 <p class="comment">
+                  {{i.comentario}}
+                 </p>
+                 <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                       <h5>
+                          <a href="#">{{i.usuario}}</a>
+                       </h5>
+                       <p class="date">{{i.data}}</p>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+      
     {% endfor %}
+  </div>
   </div>
  
   <div id="avaliacoes">
+    
     {% for i in avaliacoes %}
       <h5 style="display: inline;">
   
@@ -208,11 +227,23 @@ function envia_comentario(){
             for(var i = 0; i < resposta['comentarios'].length; i++){
                console.log('Comentário recebido:', resposta['comentarios'][i]); // Log de depuração
                div_comentario.innerHTML += `
-                  <div class="comentario">
-                     <img width="35" height="35" src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="user-male-circle"/>
-                     <h5 style="display: inline;">${resposta['comentarios'][i][0]}</h5>
-                     <p style="margin-left: 50px;">${resposta['comentarios'][i][1]}</p>
-                     <hr>
+                  <div class="comment-list">
+                    <div class="single-comment justify-content-between d-flex">
+                      <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                          <img src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="">
+                        </div>
+                        <div class="desc">
+                          <p class="comment">${resposta['comentarios'][i][1]}</p>
+                          <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                              <h5><a href="#">${resposta['comentarios'][i][0]}</a></h5>
+                              <p class="date">${resposta['comentarios'][i][2]}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                `;
             }
@@ -246,5 +277,19 @@ function envia_comentario(){
   // Aguarde 10 segundos antes de chamar a função
   setTimeout(mostrarProgresso, 10000); // 10000 milissegundos = 10 segundos
 </script>
+
+
+<style>
+
+.form-inline .form-control {
+        display: inline-block;
+        width: 250px;
+        vertical-align: middle;
+    }
+
+  .form-inline .btn {
+  margin-left: 50px;
+}
+</style>
 
 {% endblock %}
