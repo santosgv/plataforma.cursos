@@ -1,8 +1,9 @@
 
 from .models import Comentarios
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def comentar(request,aula_id):
     comentario = request.POST.get('comentario')
     aula = int(request.POST.get('aula_id'))

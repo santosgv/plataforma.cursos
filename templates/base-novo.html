@@ -66,8 +66,8 @@
                                         <nav>
                                             <ul id="navigation">                                                                                          
                                                 <li class="active" ><a href="{%url 'principal'%}">Home</a></li>
-                                                <li><a href="about.html">About</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a href="{%url 'Curso:sobre'%}">Sobre</a></li>
+                                                <li><a href="{%url 'Curso:contatos'%}">Contatos</a></li>
                                                 {% if user.is_authenticated %}
                                                 <li><a href="{% url 'Curso:cursos' %}">Cursos</a></li>
                                                 <li><a href="#" class="btn">{{user.username}}</a>

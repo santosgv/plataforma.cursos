@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_sonar',
      'corsheaders',
     'usuarios',
     'cursos',
@@ -39,10 +40,10 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django_sonar.middlewares.requests.RequestsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-   # 'plataforma_cursos.middleware.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'plataforma_cursos.urls'
@@ -143,7 +144,7 @@ EMAIL_HOST_USER= config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS=True
 EMAIL_PORT =587
-EMAIL_HOST='smtp.office365.com'
+EMAIL_HOST='smtp.gmail.com'
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -171,3 +172,13 @@ CORS_ALLOW_METHODS = [
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+DJANGO_SONAR = {
+    'excludes': [
+        STATIC_URL,
+        MEDIA_URL,
+        '/sonar/',
+        '/admin/',
+        '/__reload__/',
+    ],
+}

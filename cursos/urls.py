@@ -7,12 +7,13 @@ app_name = 'Curso'
 
 urlpatterns = [
     path('', views.home, name = 'home'),
+    path('sobre/', views.sobre, name = 'sobre'),
+    path('contatos/', views.contatos, name = 'contatos'),
     path('cursos/',views.cursos,name='cursos'),
     path('curso/<int:id>', views.curso, name = 'curso'),
     path('aula/<int:id>', views.aula, name = 'aula'),
     path('verificar_progresso/<int:curso_id>',views.verificar_progresso, name='verificar_progresso'),
     path('baixar_certificado/<int:curso_id>',views.baixar_certificado,name='baixar_certificado'),
-    path('comentarios/', views.comentarios, name = 'comentarios'),
     path('processa_avaliacao/', views.processa_avaliacao, name = 'processa_avaliacao')
 ]
 
