@@ -1,0 +1,27 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+<div class="admin-logo">
+    <img src="{% static 'logo-simples.png' %}" alt="logo" height="50px" width="100%">
+</div>
+{%endblock%}
+
+
+
+{%block extrastyle%}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="icon" href="{% static 'logo-simples.png' %}" />
+
+{%endblock%}
+
+{% block pretitle %}
+{% endblock %}
+
+{% if user.is_authenticated %}
+{% block content_subtitle %}
+
+{% endblock %}
+{% else %}
+
+{% endif %}
