@@ -81,38 +81,18 @@ Aula
   <hr>
 
   <h1>Faça seu comentário: </h1>
-  <input id="comentario" type="text" placeholder="Comentário..." class="form-control">
-  <br>
-  <input onclick="envia_comentario()" type="button" value="Enviar" class="btn btn-success btn-lg">
-  <hr>
-  <div class="comments-area">
-    {% for i in comentarios%}
-
-
-      <div id="comentarios" class="comment-list">
-        <div class="single-comment justify-content-between d-flex">
-           <div class="user justify-content-between d-flex">
-              <div class="thumb">
-                 <img src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="">
-              </div>
-              <div class="desc">
-                 <p class="comment">
-                  {{i.comentario}}
-                 </p>
-                 <div class="d-flex justify-content-between">
-                    <div class="d-flex align-items-center">
-                       <h5>
-                          <a href="#">{{i.usuario}}</a>
-                       </h5>
-                       <p class="date">{{i.data}}</p>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div>
-      
-    {% endfor %}
+  <form >
+    {% csrf_token %}
+    <textarea id="comentario" name="comentario" type="text" placeholder="Comentário..." maxlength="140" class="form-control" rows="3"></textarea>
+    <input hidden  name="aula_id" value="{{ aula.id }}" type="text" placeholder="Comentário..." class="form-control">
+    <br>
+    <button  type="button" value="Enviar" class="btn btn-success btn-lg"
+    hx-post="{% url 'Curso:comentar' aula.id %}"
+    hx-trigget="click"
+    hx-target="#comments-area">Comentar</button>
+  </form>
+  <div id="comments-area" class="comments-area">
+    {% include 'parcial/comentarios_parcial.html' %}
   </div>
   </div>
  
@@ -206,57 +186,6 @@ Aula
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-function envia_comentario(){
-   var comentario = document.getElementById('comentario').value;
-   document.getElementById('comentario').value = "";
-   $.ajax({
-      url: "{% url 'Curso:comentarios' %}",
-      method: 'post',
-      data: {
-          'csrfmiddlewaretoken': '{{ csrf_token }}',
-          'aula_id': "{{ aula.id }}",
-          'usuario_id': "{{ usuario_id }}",
-          'comentario': comentario
-      },
-      success: function(resposta){
-         resposta = JSON.parse(resposta);
-         if(resposta['status'] == "1"){
-            var div_comentario = document.getElementById('comentarios');
-            div_comentario.innerHTML = ""; // Limpa os comentários anteriores
-            for(var i = 0; i < resposta['comentarios'].length; i++){
-               console.log('Comentário recebido:', resposta['comentarios'][i]); // Log de depuração
-               div_comentario.innerHTML += `
-                  <div class="comment-list">
-                    <div class="single-comment justify-content-between d-flex">
-                      <div class="user justify-content-between d-flex">
-                        <div class="thumb">
-                          <img src="https://img.icons8.com/ios-filled/50/user-male-circle.png" alt="">
-                        </div>
-                        <div class="desc">
-                          <p class="comment">${resposta['comentarios'][i][1]}</p>
-                          <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                              <h5><a href="#">${resposta['comentarios'][i][0]}</a></h5>
-                              <p class="date">${resposta['comentarios'][i][2]}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-               `;
-            }
-         } else {
-            console.log('Erro ao enviar comentário:', resposta); // Log de depuração
-         }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-         console.log('Erro na requisição:', textStatus, errorThrown); // Log de depuração
-      }
-   });
-}
-</script>
 
 <script>
   // Função para inserir a tag após 10 segundos

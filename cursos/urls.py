@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
-from django.http.response import Http404
-from django.http import HttpResponse
+from . import htmx_views
 
 app_name = 'Curso'
 
@@ -17,3 +16,8 @@ urlpatterns = [
     path('processa_avaliacao/', views.processa_avaliacao, name = 'processa_avaliacao')
 ]
 
+htmx_patterns =[
+    path('comentar/<int:aula_id>',htmx_views.comentar, name='comentar'),
+]
+
+urlpatterns += htmx_patterns

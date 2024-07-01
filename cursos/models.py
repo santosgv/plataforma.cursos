@@ -51,7 +51,7 @@ class Aulas(models.Model):
 
 class Comentarios(models.Model):
     usuario = models.ForeignKey(USUARIO, on_delete = models.DO_NOTHING)
-    comentario = models.TextField()
+    comentario = models.TextField(max_length=140)
     data = models.DateTimeField(default = datetime.now)
     aula = models.ForeignKey(Aulas, on_delete = models.DO_NOTHING)
     
