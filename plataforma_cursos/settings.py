@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from decouple import config,Csv
 from django.contrib.messages import constants
+import logging.handlers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,13 +139,16 @@ MESSAGE_TAGS = {
     constants.WARNING: 'alert-warning',
 }
 
-DEFAULT_FROM_EMAIL=config('EMAIL_HOST_USER')
-EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_USER= config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD= config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS=True
-EMAIL_PORT =587
-EMAIL_HOST='smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
+EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') 
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True) 
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 600 # set just 10 min to test
+SESSION_SAVE_EVERY_REQUEST = True
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -181,4 +185,30 @@ DJANGO_SONAR = {
         '/admin/',
         '/__reload__/',
     ],
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simpleRe': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'Log.log',
+            'formatter': 'simpleRe',
+        },
+    },
+    'loggers': {
+        'Aplicacao': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
 }

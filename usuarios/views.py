@@ -6,6 +6,9 @@ from django.contrib.messages import constants
 from django.db import transaction
 from .models import USUARIO
 from django.contrib import auth
+import logging
+
+logger = logging.getLogger('Aplicacao')
 
 def principal(request):
     return render(request,'principal.html')
@@ -32,19 +35,23 @@ def valida_cadastro(request):
     confirmar_senha = request.POST.get('confirm-password')
     
     if not senha == confirmar_senha:
-        messages.add_message(request, constants.ERROR, 'As senhas não coincidem')
+        messages.add_message(request, constants.ERROR, 'As senhas nao coincidem')
+        logger.info('As senhas não coincidem')
         return redirect('/cadastro')
 
     if USUARIO.objects.filter(email= email).exists():
-        messages.add_message(request, constants.ERROR, 'Já existe um usário com esse username')
+        messages.add_message(request, constants.ERROR, 'Já existe um usario com esse username')
+        logger.info('Já existe um usário com esse username')
         return redirect('/cadastro')
     
     if len(nome.strip()) == 0 or len(email.strip()) == 0:
         messages.add_message(request, constants.ERROR, 'Os campos nao podem ser vazio')
+        logger.info('Os campos nao podem ser vazio')
         return redirect('/cadastro')
     
     if len(senha) < 8:
         messages.add_message(request, constants.ERROR, 'A senha deve ser maior que 8 caracteres')
+        logger.info('A senha deve ser maior que 8 caracteres')
         return redirect('/cadastro')
     
     try:
@@ -53,8 +60,9 @@ def valida_cadastro(request):
         usuario.save()
         messages.add_message(request, constants.SUCCESS, 'Cadastro realizado com sucesso!!!')
         return redirect('/login')
-    except:
+    except Exception as e:
         messages.add_message(request, constants.ERROR, 'Erro ao cadastrar o usuario entre em contato com o ADM')
+        logger.exception('Erro ao cadastrar o usuario entre em contato com o ADM: %s', e)
         return redirect('cadastro/')
 
 def valida_login(request):
@@ -66,6 +74,7 @@ def valida_login(request):
 
     if not usuarios:
         messages.add_message(request, constants.ERROR, 'Usuario ou senha estao incorretos')
+        logger.info('Usuario ou senha estao incorretos')
         return redirect('/login')
     else:
         auth.login(request,usuarios)
@@ -97,12 +106,14 @@ def area_aluno(request):
 
         if len(first_name.strip()) == 0  or len(cpf.strip()) == 0 or len(email.strip()) == 0:
             messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+            logger.info('Preencha todos os campos')
             return redirect('/area_aluno')
         
         user = USUARIO.objects.filter(username=request.user).exclude(id=request.user.id)
         
         if user.exists():
             messages.add_message(request, constants.ERROR, 'Já existe um usário com esse username')
+            logger.info('Já existe um usário com esse username')
             return redirect('area_aluno/')
 
         usuario = request.user

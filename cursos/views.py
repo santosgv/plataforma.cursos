@@ -3,14 +3,16 @@ import os
 from django.conf import settings
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter,landscape
-from django.http import HttpResponse,FileResponse
+from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render,redirect
+from django.shortcuts import  render,redirect
 from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
 from django.db import transaction
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
 from django.core.paginator import Paginator
+import logging
 
+logger = logging.getLogger('Aplicacao')
 
 @login_required
 def verificar_progresso(request, curso_id):
@@ -124,6 +126,6 @@ def baixar_certificado(request,curso_id):
         PDF.save()
         buffer.seek(0)
         return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
-    except Exception as msg:
-        print(msg)
+    except Exception as e:
+        logger.exception('Erro ao gerar o Certificado: %s', e)
         return
