@@ -91,7 +91,7 @@ def processa_avaliacao(request):
             return redirect(f'/home/aula/{aula_id}')
 
     else:
-        return redirect('/auth/login/')
+        return redirect('/cursos')
     
 
 @transaction.atomic
@@ -126,10 +126,16 @@ def baixar_certificado(request,curso_id):
         PDF.showPage()
         PDF.save()
         buffer.seek(0)
+        
+        if os.path.exists(f'certificados/{request.user.username}-{curso_id}.pdf'):
+            print('ja existe')
+        else:
+            with open(os.path.join(settings.MEDIA_ROOT,f'certificados/{request.user.username}-{curso_id}.pdf'), 'wb') as f:
+                f.write(buffer.getvalue())
         return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
     except Exception as e:
         logger.exception('Erro ao gerar o Certificado: %s', e)
-        return
+        return redirect('/auth/login/')
     
 @cache_page(60 * 100)
 def politica(request):
