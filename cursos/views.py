@@ -10,6 +10,7 @@ from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
 from django.db import transaction
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
 from django.core.paginator import Paginator
+from django.views.decorators.cache import cache_page
 import logging
 
 logger = logging.getLogger('Aplicacao')
@@ -129,3 +130,11 @@ def baixar_certificado(request,curso_id):
     except Exception as e:
         logger.exception('Erro ao gerar o Certificado: %s', e)
         return
+    
+@cache_page(60 * 100)
+def politica(request):
+     return render(request,'politica-de-privacidade.html')
+
+@cache_page(60 * 100)
+def transparencia(request):
+     return render(request,'transparencia.html')
