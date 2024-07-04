@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 import io
 import os
 from django.conf import settings
@@ -100,6 +101,7 @@ def baixar_certificado(request,curso_id):
     progresso = ProgressoAula.objects.filter(usuario=request.user,aula__curso=curso_id).first()
     curso = Cursos.objects.get(id=curso_id)
     progresso.baixou_certificado = True
+    progresso.data_certificado = now()
     progresso.save()
     try:
         buffer = io.BytesIO()
@@ -132,6 +134,8 @@ def baixar_certificado(request,curso_id):
         else:
             with open(os.path.join(settings.MEDIA_ROOT,f'certificados/{request.user.username}-{curso_id}.pdf'), 'wb') as f:
                 f.write(buffer.getvalue())
+                progresso.link_certificado = f'{settings.MEDIA_URL}certificados/{request.user.username}-{curso_id}.pdf'
+                progresso.save()
         return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
     except Exception as e:
         logger.exception('Erro ao gerar o Certificado: %s', e)

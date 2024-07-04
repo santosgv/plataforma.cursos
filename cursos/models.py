@@ -87,6 +87,8 @@ class ProgressoAula(models.Model):
     aula = models.ForeignKey(Aulas, on_delete=models.CASCADE)
     concluida = models.BooleanField(default=False)
     baixou_certificado=models.BooleanField(default=False)
+    data_certificado = models.DateTimeField(null=True, blank=True)
+    link_certificado = models.URLField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.usuario.username} - {self.aula.nome}"
