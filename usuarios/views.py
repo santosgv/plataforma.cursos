@@ -1,17 +1,47 @@
 
 from django.shortcuts import render,redirect
+from django.http import HttpResponseForbidden
 from django.contrib import messages
-from cursos.models import ProgressoAula
+from cursos.models import ProgressoAula,Cursos
 from django.contrib.messages import constants
 from django.db import transaction
 from .models import USUARIO
 from django.contrib import auth
 import logging
+from cursos.utils import calcular_progresso_curso, pode_emitir_certificado
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger('Aplicacao')
 
 def principal(request):
     return render(request,'principal.html')
+
+@login_required
+def listar_alunos(request):
+    if not request.user.is_gestor:
+        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+    
+    alunos = request.user.alunos.all()
+    cursos = Cursos.objects.all()  # Assuming you want to list progress for all courses
+    
+    alunos_com_progresso = []
+    for aluno in alunos:
+        aluno_progresso = []
+        for curso in cursos:
+            progresso = calcular_progresso_curso(aluno, curso.id)
+            pode_emitir = pode_emitir_certificado(aluno, curso.id)
+            aluno_progresso.append({
+                'curso': curso,
+                'progresso': progresso,
+                'pode_emitir': pode_emitir
+            })
+        alunos_com_progresso.append({
+            'aluno': aluno,
+            'progresso': aluno_progresso
+        })
+    
+    return render(request, 'listar_alunos.html', {'alunos_com_progresso': alunos_com_progresso})
+
 
 def cadastro(request):
     if request.session.get('usuario'):

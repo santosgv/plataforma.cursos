@@ -12,6 +12,7 @@ urlpatterns = [
     path('valida_cadastro/', views.valida_cadastro, name = 'valida_cadastro'),
     path('valida_login/', views.valida_login, name = 'valida_login'),
     path('sair/', views.sair, name = 'sair'),
+    path('alunos/',views.listar_alunos, name='listar_alunos'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name="password_reset.html"), name="password_reset"),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(template_name="password_reset_done.html"), name="password_reset_done"),

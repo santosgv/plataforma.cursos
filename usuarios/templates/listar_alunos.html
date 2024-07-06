@@ -1,0 +1,57 @@
+{% extends 'base-novo.html'%}
+{% load static %} 
+{% block 'titulo'%}
+Lista Colaboradores
+{% endblock%}
+{% block 'body' %}
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Colaboradores</h1>
+    <div class="accordion" id="alunosAccordion">
+        {% for aluno_progresso in alunos_com_progresso %}
+        <div class="card">
+            <div class="card-header" id="heading{{ forloop.counter }}">
+                <h2 class="mb-0">
+                    <a class="text-center" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                        {{ aluno_progresso.aluno.first_name }} {{ aluno_progresso.aluno.cpf }}
+                    </a>
+                </h2>
+            </div>
+
+            <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#alunosAccordion">
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for curso_progresso in aluno_progresso.progresso %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ curso_progresso.curso.nome }}</strong>
+                                <div class="progress mt-2">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ curso_progresso.progresso }}%;" aria-valuenow="{{ curso_progresso.progresso }}" aria-valuemin="0" aria-valuemax="100">{{ curso_progresso.progresso }}%</div>
+                                </div>
+                            </div>
+                            <div>
+                                {% if curso_progresso.pode_emitir %}
+                                <a href="{% url 'Curso:baixar_certificado' aluno_progresso.aluno.id  curso_progresso.curso.id  %}" class="btn btn-success btn-sm">Baixar Certificado</a>
+                                {% else %}
+                                <span class="badge badge-secondary">Certificado indisponível</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+</div>
+
+<style>
+            body {
+    padding-top: 150px;
+}
+
+</style>
+
+{% endblock%}

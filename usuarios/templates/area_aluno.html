@@ -46,34 +46,6 @@ Area Aluno
             </div>
         {% endfor %}
         {% endif %}
-<hr>
-<h1 class="display-4">Cursos Concluidos</h1>
- {% if curso_concluido %}
-        <table class="table">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Curso</th>
-                <th scope="col">Progresso</th>
-              </tr>
-            </thead>
-            <tbody>
-                {%  for curso in curso_concluido %}
-              <tr>
-                <th scope="row"><img width="30px" height="30px" src="{{curso.aula.curso.thumb.url}}">'
-                </th>
-                <td>{{curso.aula.curso}}</td>
-                <td> <a type="button" style="color: blue;" href="{% url 'Curso:baixar_certificado'  curso.aula.id  %}">Baixar Certificado</a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          {% else %}
-          <br>
-          <samp>Você Ainda nao concluiu nem um Curso</samp>
-          <br>
-          {% endif %}
           
          
         

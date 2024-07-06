@@ -4,10 +4,11 @@ import os
 from django.conf import settings
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter,landscape
-from django.http import FileResponse
+from django.http import FileResponse,HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import  render,redirect
+from django.shortcuts import  render,redirect,get_object_or_404
 from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
+from usuarios.models import USUARIO
 from django.db import transaction
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
 from django.core.paginator import Paginator
@@ -97,10 +98,23 @@ def processa_avaliacao(request):
 
 @transaction.atomic
 @login_required
-def baixar_certificado(request,curso_id):
-    progresso = ProgressoAula.objects.filter(usuario=request.user,aula__curso=curso_id).first()
-    curso = Cursos.objects.get(id=curso_id)
+def baixar_certificado(request, aluno_id, curso_id):
+    if not request.user.is_gestor:
+        return HttpResponseForbidden("Você não tem permissão para baixar este certificado.")
+
+    aluno = get_object_or_404(USUARIO, id=aluno_id)
+    curso = get_object_or_404(Cursos, id=curso_id)
+    
+    if not aluno in request.user.alunos.all():
+        return HttpResponseForbidden("Você não tem permissão para baixar o certificado deste aluno.")
+    
+    if not pode_emitir_certificado(aluno, curso_id):
+        return HttpResponseForbidden("O aluno não possui progresso suficiente para emitir o certificado.")
+
+    progresso = ProgressoAula.objects.filter(usuario=aluno, aula__curso=curso_id).first()
     progresso.baixou_certificado = True
+    progresso.save()
+
     progresso.data_certificado = now()
     progresso.save()
     try:
@@ -109,9 +123,9 @@ def baixar_certificado(request,curso_id):
         PDF.setFont('Times-Roman', 30)
         image_path = os.path.join(settings.BASE_DIR, 'templates', 'certificado.jpeg')
         PDF.drawImage(image_path, 0, 0, width=landscape(letter)[0], height=landscape(letter)[1])
-        PDF.drawString(230,390,str(request.user.first_name))
+        PDF.drawString(230,390,str(aluno.first_name))
         PDF.setFont('Times-Roman', 20)
-        PDF.drawString(395,359,str(request.user.cpf))
+        PDF.drawString(395,359,str(aluno.cpf))
         PDF.setFont('Times-Roman', 15)
 
         if curso.cargoraria and curso.validade == 1:
@@ -129,17 +143,17 @@ def baixar_certificado(request,curso_id):
         PDF.save()
         buffer.seek(0)
         
-        if os.path.exists(f'certificados/{request.user.username}-{curso_id}.pdf'):
+        if os.path.exists(f'certificados/{aluno.username}-{curso_id}.pdf'):
             print('ja existe')
         else:
-            with open(os.path.join(settings.MEDIA_ROOT,f'certificados/{request.user.username}-{curso_id}.pdf'), 'wb') as f:
+            with open(os.path.join(settings.MEDIA_ROOT,f'certificados/{aluno.username}-{curso_id}.pdf'), 'wb') as f:
                 f.write(buffer.getvalue())
-                progresso.link_certificado = f'{settings.MEDIA_URL}certificados/{request.user.username}-{curso_id}.pdf'
+                progresso.link_certificado = f'{settings.MEDIA_URL}certificados/{aluno.username}-{curso_id}.pdf'
                 progresso.save()
-        return FileResponse(buffer, as_attachment=True, filename=f'Certificado({request.user}).pdf')
+        return FileResponse(buffer, as_attachment=True, filename=f'Certificado({aluno.username}).pdf')
     except Exception as e:
         logger.exception('Erro ao gerar o Certificado: %s', e)
-        return redirect('/auth/login/')
+        return redirect('/login')
     
 @cache_page(60 * 100)
 def politica(request):
