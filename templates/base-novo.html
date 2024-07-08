@@ -70,7 +70,7 @@
                                                 <li><a href="{%url 'Curso:contatos'%}">Contatos</a></li>
                                                 {% if user.is_authenticated %}
                                                 <li><a href="{% url 'Curso:cursos' %}">Cursos</a></li>
-                                                <li><a href="#" class="btn">{{user.username}}</a>
+                                                <li><a class="btn">{{user.username}}</a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'area_aluno'%}">Perfil</a></li>
                                                         {% if user.is_gestor %}

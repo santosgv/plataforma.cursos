@@ -137,3 +137,4 @@ dmypy.json
 *.wsuo
 *.json
 *.sqlite
+db.sqlite3
