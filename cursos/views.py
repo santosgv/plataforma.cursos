@@ -2,12 +2,14 @@ from django.utils.timezone import now
 import io
 import os
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.messages import constants
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter,landscape
 from django.http import FileResponse,HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import  render,redirect,get_object_or_404
-from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula
+from .models import Comentarios, Cursos,Aulas, NotasAulas, ProgressoAula,Contato
 from usuarios.models import USUARIO
 from django.db import transaction
 from .utils import marcar_aula_concluida, calcular_progresso_curso, pode_emitir_certificado
@@ -29,7 +31,23 @@ def home(request):
     return render(request, 'home.html')
 
 def contatos(request):
-    return render(request, 'contact.html')
+    if request.method == "GET":
+        return render(request, 'contact.html')
+    else:
+        NOME = request.POST.get('name')
+        EMAIL = request.POST.get('email')
+        ASSUNTO = request.POST.get('subject')
+        MENSAGEM = request.POST.get('message')
+        
+        new_contato= Contato(
+            Nome=NOME,
+            Email=EMAIL,
+            assunto=ASSUNTO,
+            Mensagem=MENSAGEM
+        )
+        new_contato.save()
+        messages.add_message(request, constants.SUCCESS, 'Enviado com sucesso')
+        return redirect('/home/contatos')
 
 def sobre(request):
     return render(request, 'about.html')

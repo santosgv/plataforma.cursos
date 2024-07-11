@@ -1,6 +1,7 @@
 {% load static %} 
 
-<title>Log in</title> 
+<title>Login</title>
+
 
 {% block 'head' %}
 <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
@@ -22,16 +23,16 @@
 {% block 'body' %}
 
 
-<main class="login-body" data-vide-bg="" style="margin-top: 20px;">
+<main class="login-body" data-vide-bg="" >
     <!-- Login Admin -->
     <form method="POST" action="{% url 'valida_login'%}">{% csrf_token %}>
         
         <div class="login-form">
             <!-- logo-login -->
             <div class="logo-login">
-                <a href="{%url 'principal'%}"><img src="{% static 'logo-simples.png' %}" alt=""></a>
+                <a href="{%url 'principal'%}"><img src="{% static 'loader.png' %}" alt=""></a>
             </div>
-            <h2>Login Here</h2>
+            <h2>Login</h2>
             <div class="form-input">
                 <label for="name">Usuario</label>
                 <input  type="name" name = "nome" required>
@@ -52,9 +53,9 @@
             {% endfor %}
             {% endif %}
 
-            <a href="{% url 'password_reset'%}" class="forget">Forget Password</a>
+            <a href="{% url 'password_reset'%}" class="forget">Esqueçeu a senha?</a>
 
-            <a href="{% url 'cadastro'%}" class="registration">Registration</a>
+            <a href="{% url 'cadastro'%}" class="registration">Registrar</a>
         </div>
     </form>
 

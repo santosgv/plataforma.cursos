@@ -97,3 +97,17 @@ class ProgressoAula(models.Model):
         unique_together = ('usuario', 'aula')
         verbose_name = 'Progresso da Aula'
         verbose_name_plural = 'Progresso das Aulas'
+
+
+class Contato(models.Model):
+    Nome = models.CharField(max_length=100,null=True, blank=True)
+    Email = models.EmailField()
+    assunto = models.CharField(max_length=100,null=True, blank=True)
+    Mensagem = models.TextField(max_length=500)
+    Lido = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.assunto
+    
+    class Meta:
+        verbose_name_plural = "Contatos"

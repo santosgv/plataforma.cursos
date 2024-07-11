@@ -40,7 +40,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="{% static 'assets/img/logo/loder.png' %}" alt="">
+                    <img src="{% static 'loader.png' %}" alt="">
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                             <!-- Logo -->
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="{%url 'principal'%}"><img src="{% static 'assets/img/logo/logo.png' %}"  alt="{% static 'logo-simples.png' %}"></a>
+                                    <a href="{%url 'principal'%}"><img src="{% static 'logo-simples.png' %}"  alt="{% static 'logo-simples.png' %}"></a>
                                 </div>
                             </div>
                             <div class="col-xl-10 col-lg-10">
@@ -99,9 +99,11 @@
         </div>
         <!-- Header End -->
     </header>
+    <section class="" style="padding-top: 100px;">
     {% block 'body'%}
 
     {% endblock %}
+</section>
     <footer>
      <div class="footer-wrappper footer-bg">
         <!-- Footer Start-->
@@ -113,11 +115,11 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo mb-25">
-                                    <a href="index.html"><img src="{% static 'assets/img/logo/logo2_footer.png' %}" alt=""></a>
+                                    <a href="index.html"><img src="{% static 'logo-simples.png' %}" alt=""></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p>The automated process starts as soon as your clothes go into the machine.</p>
+                                        <p>Somos uma empresa especializada em consultoria e treinamentos,  Saúde e segurança</p>
                                     </div>
                                 </div>
                                 <!-- social -->
@@ -129,20 +131,32 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5">
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Our solutions</h4>
+                                <h4>Links Uteis</h4>
                                 <ul>
-                                    <li><a href="#">Design & creatives</a></li>
-                                    <li><a href="#">Telecommunication</a></li>
-                                    <li><a href="#">Restaurant</a></li>
-                                    <li><a href="#">Programing</a></li>
-                                    <li><a href="#">Architecture</a></li>
+                                    <li><a href="{%url 'Curso:sobre'%}">Sobre</a></li>
+                                    <li><a href="{%url 'Curso:contatos'%}">Contato</a></li>
+                                    <li><a href="{% url 'Curso:transparencia' %}">Transparencia</a></li>
+                                    <li><a href="{% url 'Curso:politica' %}">Politicas</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-4 col-lg-5 col-md-4 col-sm-6">
+                        <div class="single-footer-caption mb-50">
+                            <div class="single-footer-caption mb-30">
+                                <div class="footer-tittle">
+                                    <div class="footer-pera">
+                                        <p>Belo Horizonte, BR
+                                        comercial@ssconsultoriaetreinamentos.com.br
+                                        (31) 98613-1982</p>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- 
                     <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
@@ -157,20 +171,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
-                                <h4>Company</h4>
-                                <ul>
-                                    <li><a href="#">Design & creatives</a></li>
-                                    <li><a href="#">Telecommunication</a></li>
-                                    <li><a href="#">Restaurant</a></li>
-                                    <li><a href="#">Programing</a></li>
-                                    <li><a href="#">Architecture</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -185,7 +186,7 @@
                         <div class="col-xl-12 ">
                             <div class="footer-copy-right text-center">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved |<a href="{%url 'principal'%}" target="_blank">SS Consultoria e Treinamentos</a>
                                   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                               </div>
                           </div>
@@ -201,6 +202,8 @@
     </div>
   </footer> 
 <style>
+
+
     .cookie-popup {
   font-family: Arial, Helvetica, sans-serif;
   display: none;
