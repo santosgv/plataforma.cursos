@@ -99,7 +99,7 @@
         </div>
         <!-- Header End -->
     </header>
-    <section class="" style="padding-top: 100px;">
+    <section class="custom-padding">
     {% block 'body'%}
 
     {% endblock %}
@@ -115,7 +115,7 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo mb-25">
-                                    <a href="index.html"><img src="{% static 'logo-simples.png' %}" alt=""></a>
+                                    <a href="{%url 'principal'%}"><img src="{% static 'logo-simples.png' %}" alt=""></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
@@ -148,6 +148,7 @@
                         <div class="single-footer-caption mb-50">
                             <div class="single-footer-caption mb-30">
                                 <div class="footer-tittle">
+                                    <h4>Endereço</h4>
                                     <div class="footer-pera">
                                         <p>Belo Horizonte, BR
                                         comercial@ssconsultoriaetreinamentos.com.br
