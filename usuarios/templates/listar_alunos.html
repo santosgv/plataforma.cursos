@@ -6,47 +6,60 @@ Lista Colaboradores
 {% block 'body' %}
 
 <div class="container mt-5">
-    <h1 class="mb-4 text-center">Colaboradores</h1>
-    <div class="accordion" id="alunosAccordion">
-        {% for aluno_progresso in alunos_com_progresso %}
-        <div class="card">
-            <div class="card-header" id="heading{{ forloop.counter }}">
-                <h2 class="mb-0">
-                    <a class="text-center" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
-                        {{ aluno_progresso.aluno.first_name }} {{ aluno_progresso.aluno.cpf }}
-                    </a>
-                </h2>
-            </div>
 
-            <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#alunosAccordion">
-                <div class="card-body">
-                    <ul class="list-group">
-                        {% for curso_progresso in aluno_progresso.progresso %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ curso_progresso.curso.nome }}</strong>
-                                <div class="progress mt-2">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ curso_progresso.progresso }}%;" aria-valuenow="{{ curso_progresso.progresso }}" aria-valuemin="0" aria-valuemax="100">{{ curso_progresso.progresso }}%</div>
-                                </div>
-                            </div>
-                            <div>
-                                {% if curso_progresso.pode_emitir %}
-                                <a href="{% url 'Curso:baixar_certificado' aluno_progresso.aluno.id  curso_progresso.curso.id  %}" class="btn btn-success btn-sm">Baixar Certificado</a>
-                                {% else %}
-                                <span class="badge badge-secondary">Certificado indisponível</span>
-                                {% endif %}
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
+    <div class="section-top-border">
+        <h1 class="mb-4 text-center">Alunos e Progresso dos Cursos</h1>
+        <div class="progress-table-wrap">
+            <div class="progress-table">
+                <div class="table-head">
+                    <div class="serial">Nº</div>
+                    <div class="country">Nome</div>   
                 </div>
+                {% for aluno_progresso in alunos_com_progresso %}
+                <div class="table-row" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                    <div class="serial">{{ forloop.counter }}</div>
+                    <div class="country">{{ aluno_progresso.aluno.first_name }} {{ aluno_progresso.aluno.cpf }}</div>
+                    <div class="visit"></div>
+                    <div class="percentage"></div>
+                </div>
+                <div id="collapse{{ forloop.counter }}" class="collapse">
+                    {% for curso_progresso in aluno_progresso.progresso %}
+                    <div class="table-row">
+                        <div class="serial"></div>
+                        <div class="country">{{ curso_progresso.curso.nome }}</div>
+                        <div class="visit"></div>
+                        <div class="percentage">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{ curso_progresso.progresso }}%;" aria-valuenow="{{ curso_progresso.progresso }}" aria-valuemin="0" aria-valuemax="100">{{ curso_progresso.progresso }}%</div>
+                            </div>
+                        </div>
+                        <div>
+                            {% if curso_progresso.pode_emitir %}
+                            <a href="{% url 'Curso:baixar_certificado' aluno_progresso.aluno.id curso_progresso.curso.id %}" class="btn btn-success btn-sm">Baixar Certificado</a>
+                            {% else %}
+                            <span class="badge badge-secondary">Certificado indisponível</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
+    
     <br>
 </div>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.table-row[data-toggle="collapse"]').forEach(row => {
+            row.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                document.querySelector(target).classList.toggle('collapse');
+            });
+        });
+    });
+</script>
 
 {% endblock%}
